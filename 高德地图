@@ -1,0 +1,27 @@
+/*zooms 表示地图显示的缩放级别范围。在PC上，默认为[3,18]，取值范围[3-18]；在移动设备上，
+默认为[3,19],取值范围[3-19] 。当 expandZoomRange 为 true 时，
+zooms的最大级别在PC上可以扩大到20级。（移动端还是高清19/非高清20 ）*/
+var map = new AMap.Map('container',{
+            resizeEnable: true,
+            expandZoomRange:true,
+            zoom: 10,
+            zooms:[17,20],//网页一打开地图所缩放的比例
+            center: [121.5103000000,30.9930100000],//地图所定位到哪里 北京 上海 记得要区分好纬度与经度 重要
+            // zoomEnable:false,//禁止缩放
+            // dragEnable: false//禁止缩放*/
+    });
+    var marker = new AMap.Marker({
+            position: [110.5103000000,30.9930100000]
+    });
+    marker.setMap(map);
+    marker.on('click',function(e){
+      infowindow.open(map,e.target.getPosition());
+    })
+    AMap.plugin('AMap.AdvancedInfoWindow',function(){//自己所选择的定位上加上 信息框 
+       infowindow = new AMap.AdvancedInfoWindow({
+        content: '<div class="map"><img  class="info-img" src="https://webapi.amap.com/images/amap.jpg">'+
+                '<div class="info-title">xxxx</div></div>',
+        offset: new AMap.Pixel(0, -30)
+      });
+      infowindow.open(map,[110.5103000000,30.9930100000]);
+    })
